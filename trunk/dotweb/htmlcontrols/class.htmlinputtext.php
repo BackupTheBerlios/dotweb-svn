@@ -65,10 +65,6 @@ class HTMLInputText extends HTMLInputBase
         {
             $this->setSize($attribs['size']);
         }
-
-        // do the auto fillin
-        if ($this->_autofillin && $this->_submitted )
-            $this->setValue($this->_submitvalue);
     }
 
     /**
@@ -145,6 +141,10 @@ class HTMLInputText extends HTMLInputBase
         {
             return '';
         }
+
+        // do the auto fillin
+        if ($this->autoFillIn() && $this->wasSubmitted() )
+            $this->setValue($this->getSubmitValue());
     
         $code = '<input'.$this->getBaseCode();
         $code .= ' type="'.$this->_type.'"';

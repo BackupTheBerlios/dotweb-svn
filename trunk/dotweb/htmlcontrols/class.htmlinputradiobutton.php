@@ -20,19 +20,6 @@ class HTMLInputRadioButton extends HTMLInputCheckBox
     function processAttribs($attribs)
     {
         parent::processAttribs($attribs);
-
-        // autofillin
-        if ($this->autoFillIn() && $this->wasSubmitted())
-        {
-            if ($this->getSubmitValue() && $this->getSubmitValue() == $this->getValue())
-            {
-                $this->setChecked(true);
-            }
-            else
-            {
-                $this->setChecked(false);
-            }
-        }
     }
 
     /**
@@ -46,6 +33,19 @@ class HTMLInputRadioButton extends HTMLInputCheckBox
         if ($this->_visible == false)
         {
             return '';
+        }
+
+        // autofillin
+        if ($this->autoFillIn() && $this->wasSubmitted())
+        {
+            if ($this->getSubmitValue() && $this->getSubmitValue() == $this->getValue())
+            {
+                $this->setChecked(true);
+            }
+            else
+            {
+                $this->setChecked(false);
+            }
         }
 
         $code = '<input type="radio"'.$this->getBaseCode();

@@ -46,19 +46,6 @@ class HTMLInputCheckBox extends HTMLInputBase
         {
             $this->setValue($attribs['value']);
         }
-
-        // autofillin
-        if ($this->autoFillIn() && $this->wasSubmitted())
-        {
-            if ($this->getSubmitValue())
-            {
-                $this->setChecked(true);
-            }
-            else
-            {
-                $this->setChecked(false);
-            }
-        }
     }
 
     /**
@@ -127,6 +114,19 @@ class HTMLInputCheckBox extends HTMLInputBase
         if ($this->_visible == false)
         {
             return '';
+        }
+
+        // autofillin
+        if ($this->autoFillIn() && $this->wasSubmitted())
+        {
+            if ($this->getSubmitValue())
+            {
+                $this->setChecked(true);
+            }
+            else
+            {
+                $this->setChecked(false);
+            }
         }
 
         $code = '<input type="checkbox"'.$this->getBaseCode();

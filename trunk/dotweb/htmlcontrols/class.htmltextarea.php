@@ -44,12 +44,6 @@ class HTMLTextArea extends HTMLInputBase
         {
             $this->setRows($attribs['rows']);
         }
-
-        // do the auto fillin
-        if ($this->_autofillin && isset($_REQUEST[$this->_name]) )
-        {
-            $this->setText($_REQUEST[$this->_name]);
-        }
     }
 
     /**
@@ -118,6 +112,12 @@ class HTMLTextArea extends HTMLInputBase
         if ($this->_visible == false)
         {
             return '';
+        }
+
+        // do the auto fillin
+        if ($this->autoFillIn() && $this->wasSubmitted() )
+        {
+            $this->setText($this->getSubmitValue());
         }
     
         $code = '<textarea'.$this->getBaseCode();
