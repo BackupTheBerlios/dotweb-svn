@@ -74,7 +74,18 @@ class HTMLSelect extends HTMLInputBase
     }
 
     /**
-     * Alias method for <i>setValue()</i>
+     * Get the total number of options
+     *
+     * @access public
+     * @return integer
+     */
+    function getOptionCount()
+    {
+        return count($this->_options);
+    }
+
+    /**
+     * Select one of the options
      *
      * @access public
      * @param  integer
@@ -82,6 +93,35 @@ class HTMLSelect extends HTMLInputBase
     function setSelected($num)
     {
         $this->_selected = $num;
+    }
+
+    /**
+     * Get the number of an entry with the given value.
+     *
+     * Return -1 if value can't be found.
+     *
+     * @access public
+     * @param  string Value to search for
+     */
+    function getNumByValue($value)
+    {
+        $cnt = $this->getOptionCount();
+
+        for ($i = 0; $i < $cnt; $i++)
+        {
+            if (strlen($this->_values[$i]))
+            {
+                if ($this->_values[$i] == $value)
+                    return $i;
+            }
+            else
+            {
+                if ($this->_options[$i] == $value)
+                    return $i;
+            }
+        }
+
+        return -1;
     }
 
     /**
@@ -125,6 +165,19 @@ class HTMLSelect extends HTMLInputBase
         if ($this->_visible == false)
         {
             return '';
+        }
+
+        // autofillin
+        if ($this->autoFillIn() && $this->wasSubmitted())
+        {
+            if ($value = $this->getSubmitValue())
+            {
+                $num = $this->getNumByValue($value);
+                if ($num > -1)
+                {
+                    $this->setSelected($num);
+                }
+            }
         }
     
         $code = '<select'.$this->getBaseCode();
