@@ -8,6 +8,7 @@ require_once 'dotweb/htmlcontrols/class.htmlanchor.php';
 require_once 'dotweb/htmlcontrols/class.htmldiv.php';
 require_once 'dotweb/htmlcontrols/class.htmlparagraph.php';
 require_once 'dotweb/htmlcontrols/class.htmlform.php';
+require_once 'dotweb/htmlcontrols/class.htmlbutton.php';
 require_once 'dotweb/htmlcontrols/class.htmlimage.php';
 require_once 'dotweb/htmlcontrols/class.htmlselect.php';
 require_once 'dotweb/htmlcontrols/class.htmlinputhidden.php';
@@ -17,6 +18,7 @@ require_once 'dotweb/htmlcontrols/class.htmlinputradiobutton.php';
 require_once 'dotweb/htmlcontrols/class.htmlspan.php';
 require_once 'dotweb/htmlcontrols/class.htmltextarea.php';
 require_once 'dotweb/htmlcontrols/class.htmltable.php';
+require_once 'dotweb/htmlcontrols/class.fieldvalidator.php';
 
 /**
  * Class which parses a template, retrieves and creates the objects of the dotweb components used in this template and generates the final output of the template.
@@ -46,6 +48,11 @@ class TemplateParser
      * @var    array
      */
     var $objects = array();
+    /**
+     * @access private
+     * @var    array
+     */
+    var $_validators = array();
     /**
      * @access private
      * @var    array
@@ -85,6 +92,24 @@ class TemplateParser
     }
 
     /**
+     * Setup the FieldValidators after parsing the template
+     *
+     * @access private
+     */
+    function validatorSetup()
+    {
+        $cnt = count($this->_validators);
+        for ($i = 0; $i < $cnt; $i++)
+        {
+            // pass reference for the field object to the validators
+            $fname = $this->_validators[$i]->getFieldName();
+            $this->_validators[$i]->setField($this->objects[$fname]);
+            // validate each field
+            $this->_validators[$i]->isValid();
+        }
+    }
+
+    /**
      * Parse a template and return an array of html objects
      *
      * @access public
@@ -114,6 +139,9 @@ class TemplateParser
         }
         
         xml_parser_free($xml_parser);
+
+        $this->validatorSetup();
+
         return $this->objects;
     }
 
@@ -166,6 +194,11 @@ class TemplateParser
                 $this->objects[$attribs['id']] = new HTMLForm($attribs['id']);
                 $this->objects[$attribs['id']]->processAttribs($attribs);
             }
+            else if ($name == "dotweb:button")
+            {
+                $this->objects[$attribs['id']] = new HTMLButton($attribs['id']);
+                $this->objects[$attribs['id']]->processAttribs($attribs);
+            }
             else if ($name == "dotweb:select")
             {
                 $this->objects[$attribs['id']] = new HTMLSelect($attribs['id']);
@@ -215,6 +248,13 @@ class TemplateParser
             {
                 $this->objects[$attribs['id']] = new HTMLTable($attribs['id']);
                 $this->objects[$attribs['id']]->processAttribs($attribs);
+            }
+            // field validator stuff
+            else if ($name == "dotweb:fieldvalidator")
+            {
+                $this->objects[$attribs['id']] = new FieldValidator($attribs['id']);
+                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_validators[] = &$this->objects[$attribs['id']];
             }
 
             if ($name != "dotweb:comment")

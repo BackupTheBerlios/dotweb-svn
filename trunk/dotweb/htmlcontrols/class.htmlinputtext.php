@@ -67,8 +67,8 @@ class HTMLInputText extends HTMLInputBase
         }
 
         // do the auto fillin
-        if ($this->_autofillin && isset($_REQUEST[$this->_name]) )
-            $this->setValue($_REQUEST[$this->_name]);
+        if ($this->_autofillin && $this->_submitted )
+            $this->setValue($this->_submitvalue);
     }
 
     /**
