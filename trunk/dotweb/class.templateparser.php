@@ -6,6 +6,7 @@
 
 require_once 'dotweb/htmlcontrols/class.htmlanchor.php';
 require_once 'dotweb/htmlcontrols/class.htmldiv.php';
+require_once 'dotweb/htmlcontrols/class.htmlparagraph.php';
 require_once 'dotweb/htmlcontrols/class.htmlform.php';
 require_once 'dotweb/htmlcontrols/class.htmlimage.php';
 require_once 'dotweb/htmlcontrols/class.htmlinputhidden.php';
@@ -175,6 +176,11 @@ class TemplateParser
             else if ($name == 'dotweb:textarea')
             {
                 $this->objects[$attribs['id']] = new HTMLTextArea($attribs['id']);
+                $this->objects[$attribs['id']]->processAttribs($attribs);
+            }
+            else if ($name == "dotweb:p")
+            {
+                $this->objects[$attribs['id']] = new HTMLParagraph($attribs['id']);
                 $this->objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:div")
