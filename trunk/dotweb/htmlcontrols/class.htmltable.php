@@ -103,7 +103,7 @@ class HTMLTable extends HTMLControl
             $code .= $this->_rows[$i]->getCode();
         }
         
-        $this->_content.'</table>';
+        $code .= '</table>';
 
         return $code;
     }

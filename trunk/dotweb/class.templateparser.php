@@ -9,6 +9,7 @@ require_once 'dotweb/htmlcontrols/class.htmldiv.php';
 require_once 'dotweb/htmlcontrols/class.htmlparagraph.php';
 require_once 'dotweb/htmlcontrols/class.htmlform.php';
 require_once 'dotweb/htmlcontrols/class.htmlimage.php';
+require_once 'dotweb/htmlcontrols/class.htmlselect.php';
 require_once 'dotweb/htmlcontrols/class.htmlinputhidden.php';
 require_once 'dotweb/htmlcontrols/class.htmlinputtext.php';
 require_once 'dotweb/htmlcontrols/class.htmlspan.php';
@@ -161,6 +162,11 @@ class TemplateParser
             else if ($name == "dotweb:form")
             {
                 $this->objects[$attribs['id']] = new HTMLForm($attribs['id']);
+                $this->objects[$attribs['id']]->processAttribs($attribs);
+            }
+            else if ($name == "dotweb:select")
+            {
+                $this->objects[$attribs['id']] = new HTMLSelect($attribs['id']);
                 $this->objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == 'dotweb:input' && ($attribs['type'] == 'text' || $attribs['type'] == 'password'))
