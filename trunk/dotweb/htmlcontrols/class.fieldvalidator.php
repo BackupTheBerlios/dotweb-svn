@@ -8,7 +8,7 @@
 require_once("dotweb/htmlcontrols/class.htmlcontrol.php");
 
 /**
- * Manage a <span> tag
+ * The parent class of all field validators which checks if a field has any input
  *
  * @package    DotWeb
  * @subpackage HTMLControls
@@ -95,7 +95,7 @@ class FieldValidator extends HTMLControl
      * Validate the field
      *
      * @access public
-     * @return string Field id
+     * @return bool
      */
     function isValid()
     {

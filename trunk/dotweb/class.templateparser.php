@@ -18,7 +18,10 @@ require_once 'dotweb/htmlcontrols/class.htmlinputradiobutton.php';
 require_once 'dotweb/htmlcontrols/class.htmlspan.php';
 require_once 'dotweb/htmlcontrols/class.htmltextarea.php';
 require_once 'dotweb/htmlcontrols/class.htmltable.php';
+
 require_once 'dotweb/htmlcontrols/class.fieldvalidator.php';
+require_once 'dotweb/htmlcontrols/class.fieldvalidatorregexp.php';
+require_once 'dotweb/htmlcontrols/class.fieldvalidatoremail.php';
 
 /**
  * Class which parses a template, retrieves and creates the objects of the dotweb components used in this template and generates the final output of the template.
@@ -273,7 +276,23 @@ class TemplateParser
             // field validator stuff
             else if ($name == "dotweb:fieldvalidator")
             {
-                $this->_objects[$attribs['id']] = new FieldValidator($attribs['id']);
+                $type = '';
+                if (isset($attribs['type']))
+                    $type = $attribs['type'];
+
+                if ($type == 'email')
+                {
+                    $this->_objects[$attribs['id']] = new FieldValidatorEmail($attribs['id']);
+                }
+                else if ($type == 'regexp')
+                {
+                    $this->_objects[$attribs['id']] = new FieldValidatorRegexp($attribs['id']);
+                }
+                else
+                {
+                    $this->_objects[$attribs['id']] = new FieldValidator($attribs['id']);
+                }
+
                 $this->_objects[$attribs['id']]->processAttribs($attribs);
                 $this->_validators[] = &$this->_objects[$attribs['id']];
             }
