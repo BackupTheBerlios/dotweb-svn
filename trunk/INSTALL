@@ -1,0 +1,19 @@
+ROOT INSTALLATION
+
+Installing DotWeb is very easy. First of all you must move this directory to a position in your file system where you think it fits best. Take /usr/share for example. Now you just have to edit your php.ini and add the directory where you have installed DotWeb to your include_path. Your new include_path could look like this:
+
+include_path = ".:/usr/share/pear:/usr/share/php:/usr/share/dotweb"
+
+After restarting your webserver you should be able to access DotWebs WebPage class in your PHP code with
+
+require_once("class.webpage.php");
+
+
+NON ROOT INSTALLATION
+
+If you don't have an root account for the server your webpage is hosted on there is still a way to install DotWeb.
+
+Copy the DotWeb directory somewhere where you have write access and then add the following lines of code at the beginning of your scripts:
+
+$incpath = ini_get("include_path");
+ini_set("include_path", "$incpath:/your/path/to/dotweb");

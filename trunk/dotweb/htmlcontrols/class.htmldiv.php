@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @package    DotWeb
+ * @subpackage HTMLControls
+ */
+
+require_once("dotweb/htmlcontrols/class.htmlcontrol.php");
+
+/**
+ * Manage a <div> tag
+ *
+ * @package    DotWeb
+ * @subpackage HTMLControls
+ */
+
+class HTMLDiv extends HTMLControl
+{
+    function HTMLDiv($id)
+    {
+        parent::HTMLControl($id);
+    }
+
+    /**
+     * Returns the HTML code of the control
+     *
+     * @access public
+     * @return string HTML code
+     */
+    function getCode()
+    {
+        if ($this->visible == false)
+        {
+            return "";
+        }
+    
+        $code = "<div".$this->getBaseCode();
+
+        $code .= ">".$this->content.'</div>';
+
+        return $code;
+    }
+}
