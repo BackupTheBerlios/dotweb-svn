@@ -42,6 +42,11 @@ class HTMLInputCheckBox extends HTMLInputBase
     {
         parent::processAttribs($attribs);
 
+        if ( isset($attribs['value']) )
+        {
+            $this->setValue($attribs['value']);
+        }
+
         // autofillin
         if ($this->autoFillIn() && $this->wasSubmitted())
         {
@@ -98,6 +103,17 @@ class HTMLInputCheckBox extends HTMLInputBase
     function setValue($value)
     {
         $this->_value = $value;
+    }
+
+    /**
+     * Get the value of the checkbox.
+     *
+     * @access public
+     * @return string
+     */
+    function getValue()
+    {
+        return $this->_value;
     }
 
     /**

@@ -5,13 +5,19 @@ For version 0.01:
     + test if disabling of the automatic fillin works
     + Perl script for automatic generation of the API docs
     - write some scripts for the example subdir
+    + template method that returns the HTML code instead of printing it
 
 After 0.01:
 
-    - tabindex for all form controls
+    - FieldValidators for regexps, email and custom code
     - register event for variable defined
-    - template method that returns the HTML code instead of printing it
     - add support for JavaScript event handlers to all controls
+    - get methods for all private data
+
+    - tabindex for all form controls
     - additional client side form validation with JavaScript
     - intensive testing by using it to build real applications
     - improve API documentation
+    - strong checks for missing attributes in templates
+    - more examples
+    - parse text for RadioButtons and Checkboxes
