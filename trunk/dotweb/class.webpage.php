@@ -20,12 +20,12 @@ class WebPage
      * @access private
      * @var    array
      */
-    var $events_post;
+    var $_events_post;
     /**
      * @access private
      * @var    array
      */
-    var $events_get;
+    var $_events_get;
     /**
      * @access private
      * @var    resource
@@ -34,8 +34,8 @@ class WebPage
 
     function WebPage()
     {
-        $this->events_post = array();
-        $this->events_get  = array();
+        $this->_events_post = array();
+        $this->_events_get  = array();
     }
 
     /**
@@ -113,16 +113,16 @@ class WebPage
 
         if ($method == "POST")
         {
-            $i = count($this->events_post);
-            $this->events_post[$i][$varname][0] = $value;
-            $this->events_post[$i][$varname][1] = $funcname;
+            $i = count($this->_events_post);
+            $this->_events_post[$i][$varname][0] = $value;
+            $this->_events_post[$i][$varname][1] = $funcname;
         }
 
         if ($method == "GET")
         {
-            $i = count($this->events_get);
-            $this->events_get[$i]["$varname"][0] = $value;
-            $this->events_get[$i]["$varname"][1] = $funcname;
+            $i = count($this->_events_get);
+            $this->_events_get[$i]["$varname"][0] = $value;
+            $this->_events_get[$i]["$varname"][1] = $funcname;
         }
     }
 
@@ -133,7 +133,7 @@ class WebPage
      */
     function callEventHandlersPost()
     {
-        foreach ($this->events_post as $entry)
+        foreach ($this->_events_post as $entry)
         {
             $entry = each($entry);
             $varname = $entry["key"];
@@ -158,7 +158,7 @@ class WebPage
      */
     function callEventHandlersGet()
     {
-        foreach ($this->events_get as $entry)
+        foreach ($this->_events_get as $entry)
         {
             $entry = each($entry);
             $varname = $entry["key"];

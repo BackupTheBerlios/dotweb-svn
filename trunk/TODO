@@ -1,18 +1,33 @@
-After 0.01:
+Long Term Goals:
+
+    - Make use of PEAR classes
+    - Split DotWeb into two parts with basic and full
+      functionality
+    - Write a specification for DotWeb Basic and implement it
+      as extension for PHP 5
+    - Port this extension to other scripting languages like Perl,
+      Python, Ruby etc.
+    - No PHP 5 code. DotWeb shall be a PHP 4 library which is
+      fully compatible with PHP 5
+
+For 0.02:
 
     - FieldValidators for regexps, email and custom code
     - register event for variable defined
-    - add support for JavaScript event handlers to all controls
-    - get methods for all private data
     - sort method for select
-    - parse options of select
-    - <dotweb:label/>
+    - <dotweb:text/>
+    - <dotweb:list/>
+    - strong checks for missing attributes in templates
+    - better error messages
 
+After 0.02:
+
+    - get methods for all private data
+    - add support for JavaScript event handlers to all controls
+    - parse options of select
     - tabindex for all form controls
     - additional client side form validation with JavaScript
     - intensive testing by using it to build real applications
     - improve API documentation
-    - strong checks for missing attributes in templates
     - more examples
     - parse text for RadioButtons and Checkboxes
-    - better error messages

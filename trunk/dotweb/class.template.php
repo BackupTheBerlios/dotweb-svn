@@ -19,32 +19,32 @@ class Template
      * @access private
      * @var    string
      */
-    var $tpldir = '';
+    var $_tpldir = '';
     /**
      * @access private
      * @var    string
      */
-    var $tplfile = '';
+    var $_tplfile = '';
     /**
      * @access private
      * @var    string
      */
-    var $tplfilec = '';
+    var $_tplfilec = '';
     /**
      * @access private
      * @var    string
      */
-    var $compiledir = '/tmp/.dotweb';
+    var $_compiledir = '/tmp/.dotweb';
     /**
      * @access private
      * @var    string
      */
-    var $output = '';
+    var $_output = '';
     /**
      * @access private
      * @var    object
      */
-    var $tplparser;
+    var $_tplparser;
 
     /**
      * Create a new Template object
@@ -55,10 +55,10 @@ class Template
      */
     function Template($tpldir, $tplfile)
     {
-        $this->tpldir = $tpldir;
+        $this->_tpldir = $tpldir;
         $this->setTemplate($tplfile);
 
-        $this->tplparser = new TemplateParser();
+        $this->_tplparser = new TemplateParser();
     }
 
     /**
@@ -69,7 +69,7 @@ class Template
      */
     function setTemplate($tplfile)
     {
-        $this->tplfile = $tplfile;
+        $this->_tplfile = $tplfile;
         $this->compileTemplate();
     }
 
@@ -81,7 +81,7 @@ class Template
      */
     function setTitle($title)
     {
-        $this->tplparser->setTitle($title);
+        $this->_tplparser->setTitle($title);
     }
 
     /**
@@ -92,8 +92,8 @@ class Template
      */
     function getControls()
     {
-        $this->tplparser->setInputFile($this->compiledir.'/'.$this->tplfilec);
-        return $this->tplparser->parse();
+        $this->_tplparser->setInputFile($this->_compiledir.'/'.$this->_tplfilec);
+        return $this->_tplparser->parse();
     }
 
     /**
@@ -104,7 +104,7 @@ class Template
      */
     function printOutput($controls)
     {
-        print $this->tplparser->getOutput($controls);
+        print $this->_tplparser->getOutput($controls);
     }
 
     /**
@@ -115,7 +115,7 @@ class Template
      */
     function getOutput($controls)
     {
-        return $this->tplparser->getOutput($controls);
+        return $this->_tplparser->getOutput($controls);
     }
 
      /**
@@ -136,17 +136,17 @@ class Template
      */
     function compileCheck()
     {
-        if (file_exists($this->compiledir))
+        if (file_exists($this->_compiledir))
         {
-            if (!is_dir($this->compiledir))
+            if (!is_dir($this->_compiledir))
             {
-               fatalError("Template", "compileCheck", "<b>".$this->compiledir."</b> is a file but needs to be a directory.");
+               fatalError("Template", "compileCheck", "<b>".$this->_compiledir."</b> is a file but needs to be a directory.");
                exit();
             }
         }
         else
         {
-            mkdir($this->compiledir, 0755);
+            mkdir($this->_compiledir, 0755);
         }
     }
 
@@ -157,15 +157,15 @@ class Template
      */
     function createOutFile()
     {
-        $filename = $this->tpldir.'/'.$this->tplfile;
-        $hash = md5_file($this->tpldir.'/'.$this->tplfile);
+        $filename = $this->_tpldir.'/'.$this->_tplfile;
+        $hash = md5_file($this->_tpldir.'/'.$this->_tplfile);
 
         // we use the hash of the real tplfile as the filename
         // of the compiled template
-        $this->tplfilec = $hash.'_'.filesize($filename);
-        $filenamec = $this->compiledir.'/'.$this->tplfilec;
+        $this->_tplfilec = $hash.'_'.filesize($filename);
+        $filenamec = $this->_compiledir.'/'.$this->_tplfilec;
 
-        if (file_exists($this->tplfilec))
+        if (file_exists($this->_tplfilec))
             return;
 
         $fp = fopen($filenamec, 'w');
@@ -204,7 +204,7 @@ class Template
      */
     function callback($matches)
     {
-        return $this->compileFile($this->tpldir.'/'.$matches[1]);
+        return $this->compileFile($this->_tpldir.'/'.$matches[1]);
     }
 
     /**
@@ -215,7 +215,7 @@ class Template
      */
     function isFormValid()
     {
-        return $this->tplparser->isFormValid();
+        return $this->_tplparser->isFormValid();
     }
 
 }

@@ -32,22 +32,22 @@ class TemplateParser
      * @access private
      * @var    string
      */
-    var $output = "";
+    var $_output = "";
     /**
      * @access private
      * @var    string
      */
-    var $tplfile = "";
+    var $_tplfile = "";
     /**
      * @access private
      * @var    integer
      */
-    var $depth = 0;
+    var $_depth = 0;
     /**
      * @access private
      * @var    array
      */
-    var $objects = array();
+    var $_objects = array();
     /**
      * @access private
      * @var    array
@@ -62,23 +62,23 @@ class TemplateParser
      * @access private
      * @var    array
      */
-    var $namestack = array();
+    var $_namestack = array();
     /**
      * @access private
      * @var    array
      */
-    var $idstack = array();
+    var $_idstack = array();
     /**
      * @access private
      * @var    array
      */
-    var $curcontent = array();
+    var $_curcontent = array();
     /**
      * List of html tags which have no content
      * @access private
      * @var    array
      */
-    var $nocontent = array('br', 'img', 'input', 'link');
+    var $_nocontent = array('br', 'img', 'input', 'link');
 
     function TemplateParser()
     {
@@ -93,7 +93,7 @@ class TemplateParser
      */
     function setInputFile($tplfile)
     {
-        $this->tplfile = $tplfile;
+        $this->_tplfile = $tplfile;
     }
 
     /**
@@ -119,7 +119,7 @@ class TemplateParser
         {
             // pass reference for the field object to the validators
             $fname = $this->_validators[$i]->getFieldName();
-            $this->_validators[$i]->setField($this->objects[$fname]);
+            $this->_validators[$i]->setField($this->_objects[$fname]);
             // validate each field
             $this->_validators[$i]->isValid();
         }
@@ -132,15 +132,15 @@ class TemplateParser
      */
     function parse()
     {
-        $this->depth = 0;
-        $this->objects = array();
+        $this->_depth = 0;
+        $this->_objects = array();
     
         $xml_parser = xml_parser_create();
         xml_set_object($xml_parser, $this);
         xml_parser_set_option($xml_parser, XML_OPTION_CASE_FOLDING, false);
         xml_set_element_handler($xml_parser, "startParseHandler", "endParseHandler");
         xml_set_character_data_handler($xml_parser, "charParseHandler");
-        if (!($fp = fopen($this->tplfile, "r")))
+        if (!($fp = fopen($this->_tplfile, "r")))
         {
             die("could not open XML input");
         }
@@ -158,7 +158,7 @@ class TemplateParser
 
         $this->validatorSetup();
 
-        return $this->objects;
+        return $this->_objects;
     }
 
     /**
@@ -171,22 +171,22 @@ class TemplateParser
      */
     function startParseHandler($xp, $name, $attribs)
     {
-        $this->depth++;
+        $this->_depth++;
 
-        if (count($this->namestack))
+        if (count($this->_namestack))
         {
-            $i = count($this->curcontent) - 1;
-            $this->curcontent[$i] .= '<'.$name;
+            $i = count($this->_curcontent) - 1;
+            $this->_curcontent[$i] .= '<'.$name;
             foreach ($attribs as $key => $value)
             {
-                $this->curcontent[$i] .= ' '.$key.'="'.$value.'"';
+                $this->_curcontent[$i] .= ' '.$key.'="'.$value.'"';
             }
-            $this->curcontent[$i] .= '>';
+            $this->_curcontent[$i] .= '>';
         }
 
         if ($name == "dotweb:title")
         {
-            $this->objects['title'] = 'title';
+            $this->_objects['title'] = 'title';
         }
         else
         // do we have a dotweb tag?
@@ -194,95 +194,95 @@ class TemplateParser
         {
             // require an id attribute
             if (!isset($attribs['id']) && $name != "dotweb:comment")
-                fatalError("TemplateParser", $this->tplfile.': <b>Line '.xml_get_current_line_number($xp).'</b>', $name.' has no id but it is required to have one');
+                fatalError("TemplateParser", $this->_tplfile.': <b>Line '.xml_get_current_line_number($xp).'</b>', $name.' has no id but it is required to have one');
             // check if id is unique
-            if (isset($attribs['id']) && array_key_exists($attribs['id'], $this->objects))
-                fatalError("TemplateParser", $this->tplfile.': <b>Line '.xml_get_current_line_number($xp).'</b>', 'Ids have to be unique but the id <b>'.$attribs['id'].'</b> is already in use.');
+            if (isset($attribs['id']) && array_key_exists($attribs['id'], $this->_objects))
+                fatalError("TemplateParser", $this->_tplfile.': <b>Line '.xml_get_current_line_number($xp).'</b>', 'Ids have to be unique but the id <b>'.$attribs['id'].'</b> is already in use.');
 
             // check for a specific dotweb tag and create a correspondent object
             if ($name == "dotweb:a")
             {
-                $this->objects[$attribs['id']] = new HTMLAnchor($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLAnchor($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:img")
             {
-                $this->objects[$attribs['id']] = new HTMLImage($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLImage($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:form")
             {
-                $this->objects[$attribs['id']] = new HTMLForm($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLForm($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:button")
             {
-                $this->objects[$attribs['id']] = new HTMLButton($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLButton($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:select")
             {
-                $this->objects[$attribs['id']] = new HTMLSelect($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLSelect($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == 'dotweb:input' && ($attribs['type'] == 'text' || $attribs['type'] == 'password'))
             {
-                $this->objects[$attribs['id']] = new HTMLInputText($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLInputText($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == 'dotweb:input' && $attribs['type'] == 'hidden')
             {
-                $this->objects[$attribs['id']] = new HTMLInputHidden($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLInputHidden($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == 'dotweb:input' && $attribs['type'] == 'checkbox')
             {
-                $this->objects[$attribs['id']] = new HTMLInputCheckBox($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLInputCheckBox($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == 'dotweb:input' && $attribs['type'] == 'radio')
             {
-                $this->objects[$attribs['id']] = new HTMLInputRadioButton($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLInputRadioButton($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == 'dotweb:textarea')
             {
-                $this->objects[$attribs['id']] = new HTMLTextArea($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLTextArea($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:p")
             {
-                $this->objects[$attribs['id']] = new HTMLParagraph($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLParagraph($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:div")
             {
-                $this->objects[$attribs['id']] = new HTMLDiv($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLDiv($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:span")
             {
-                $this->objects[$attribs['id']] = new HTMLSpan($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLSpan($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == "dotweb:table")
             {
-                $this->objects[$attribs['id']] = new HTMLTable($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
+                $this->_objects[$attribs['id']] = new HTMLTable($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
             }
             // field validator stuff
             else if ($name == "dotweb:fieldvalidator")
             {
-                $this->objects[$attribs['id']] = new FieldValidator($attribs['id']);
-                $this->objects[$attribs['id']]->processAttribs($attribs);
-                $this->_validators[] = &$this->objects[$attribs['id']];
+                $this->_objects[$attribs['id']] = new FieldValidator($attribs['id']);
+                $this->_objects[$attribs['id']]->processAttribs($attribs);
+                $this->_validators[] = &$this->_objects[$attribs['id']];
             }
 
             if ($name != "dotweb:comment")
             {
-                array_push($this->namestack, $name);
-                array_push($this->idstack, $attribs['id']);
-                array_push($this->curcontent, '');
+                array_push($this->_namestack, $name);
+                array_push($this->_idstack, $attribs['id']);
+                array_push($this->_curcontent, '');
             }
         } 
     }
@@ -296,10 +296,10 @@ class TemplateParser
      */
     function charParseHandler($xp, $data)
     {
-        if (count($this->namestack))
+        if (count($this->_namestack))
         {
-            $i = count($this->curcontent) - 1;
-            $this->curcontent[$i] .= $data;
+            $i = count($this->_curcontent) - 1;
+            $this->_curcontent[$i] .= $data;
         }
     }
 
@@ -314,29 +314,29 @@ class TemplateParser
     {
         if (ereg("^dotweb:", $name))
         {
-            if (count($this->namestack))
+            if (count($this->_namestack))
             {
-                array_pop($this->namestack);
-                $id = array_pop($this->idstack);
-                $cont = array_pop($this->curcontent);
+                array_pop($this->_namestack);
+                $id = array_pop($this->_idstack);
+                $cont = array_pop($this->_curcontent);
 
                 
-                if (count($this->curcontent))
+                if (count($this->_curcontent))
                 {
-                    $i = count($this->curcontent) - 1;
-                    $this->curcontent[$i] = $this->curcontent[$i].'</'.$name.'>';
+                    $i = count($this->_curcontent) - 1;
+                    $this->_curcontent[$i] = $this->_curcontent[$i].'</'.$name.'>';
                 }
 
-                if (!$this->objects[$id]->getContent())
-                    $this->objects[$id]->setContent($cont);
+                if (!$this->_objects[$id]->getContent())
+                    $this->_objects[$id]->setContent($cont);
             }
         }
-        else if (count($this->namestack))
+        else if (count($this->_namestack))
         {
-            $i = count($this->curcontent) - 1;
-            $this->curcontent[$i] = $this->curcontent[$i].'</'.$name.'>';
+            $i = count($this->_curcontent) - 1;
+            $this->_curcontent[$i] = $this->_curcontent[$i].'</'.$name.'>';
         }
-        $this->depth--;
+        $this->_depth--;
     }
 
     /**
@@ -348,9 +348,9 @@ class TemplateParser
      */
     function getOutput($objects, $xmldata = '')
     {
-        $this->output = "";
-        $this->objects = "";
-        $this->objects = $objects;
+        $this->_output = "";
+        $this->_objects = "";
+        $this->_objects = $objects;
 
         $xml_parser = xml_parser_create();
         xml_set_object($xml_parser, $this);
@@ -369,7 +369,7 @@ class TemplateParser
         }
         else
         {
-            if (!($fp = fopen($this->tplfile, "r")))
+            if (!($fp = fopen($this->_tplfile, "r")))
             {
                 die("could not open XML input");
             }
@@ -385,7 +385,7 @@ class TemplateParser
         }
         
         xml_parser_free($xml_parser);
-        return $this->output;
+        return $this->_output;
     }
 
     /**
@@ -400,7 +400,7 @@ class TemplateParser
         // output every unknown data from the template except for the XML declaration (IE6 doesn't like it in html)
         if (!ereg("\<?xml", $data))
         {
-            $this->output .= $data;
+            $this->_output .= $data;
         }
     }
 
@@ -417,20 +417,20 @@ class TemplateParser
         // put all non dotweb tags in the output stream the same way they look like in the template
         if (!ereg('^dotweb:', $name))
         {
-            if (count($this->namestack) == 0 && $name != 'helper')
+            if (count($this->_namestack) == 0 && $name != 'helper')
             {
-                $this->output .= '<'.$name;
+                $this->_output .= '<'.$name;
                 foreach ($attribs as $key => $value)
                 {
-                    $this->output .= ' '.$key.'="'.$value.'"';
+                    $this->_output .= ' '.$key.'="'.$value.'"';
                 }
-                if (in_array($name, $this->nocontent))
+                if (in_array($name, $this->_nocontent))
                 {
-                    $this->output .= '/>';
+                    $this->_output .= '/>';
                 }
                 else
                 {
-                    $this->output .= '>';
+                    $this->_output .= '>';
                 }
             }
         }
@@ -438,19 +438,19 @@ class TemplateParser
         {
             if ($name == 'dotweb:title')
             {
-                $this->output .= '<title>'.$this->_title.'</title>';
+                $this->_output .= '<title>'.$this->_title.'</title>';
             }
-            if ( isset($attribs['id']) && count($this->namestack) == 0)
+            if ( isset($attribs['id']) && count($this->_namestack) == 0)
             {
-                if ($cont = $this->objects[$attribs['id']]->getContent())
+                if ($cont = $this->_objects[$attribs['id']]->getContent())
                 {
                     $tplparser = new TemplateParser();
-                    $cont = $tplparser->getOutput($this->objects, '<helper>'.$cont.'</helper>');
-                    $this->objects[$attribs['id']]->setContent($cont);
+                    $cont = $tplparser->getOutput($this->_objects, '<helper>'.$cont.'</helper>');
+                    $this->_objects[$attribs['id']]->setContent($cont);
                 }
-                $this->output .= $this->objects[$attribs['id']]->getCode();
+                $this->_output .= $this->_objects[$attribs['id']]->getCode();
             }
-            array_push($this->namestack, $name);
+            array_push($this->_namestack, $name);
         }
     }
 
@@ -463,9 +463,9 @@ class TemplateParser
      */
     function charOutHandler($xp, $data)
     {
-        if (count($this->namestack) == 0)
+        if (count($this->_namestack) == 0)
         {
-            $this->output .= $data;
+            $this->_output .= $data;
         }
     }
 
@@ -478,14 +478,14 @@ class TemplateParser
      */
     function endOutHandler($xp, $name)
     {
-        if (count($this->namestack) == 0 && $name != 'helper')
+        if (count($this->_namestack) == 0 && $name != 'helper')
         {
-            if (!in_array($name, $this->nocontent))
-                $this->output .= '</'.$name.'>';
+            if (!in_array($name, $this->_nocontent))
+                $this->_output .= '</'.$name.'>';
         }
         if (ereg('^dotweb:', $name))
         {
-            array_pop($this->namestack);
+            array_pop($this->_namestack);
         }
     }
 
