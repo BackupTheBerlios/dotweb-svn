@@ -67,9 +67,9 @@ class HTMLInputHidden extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
-            return "";
+            return '';
         }
     
         $code = '<input'.$this->getBaseCode();

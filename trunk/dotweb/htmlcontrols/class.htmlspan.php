@@ -31,12 +31,12 @@ class HTMLSpan extends HTMLControl
     {
         if ($this->visible == false)
         {
-            return "";
+            return '';
         }
     
         $code = "<span".$this->getBaseCode();
 
-        $code .= ">".$this->content.'</span>';
+        $code .= ">".$this->_content.'</span>';
 
         return $code;
     }

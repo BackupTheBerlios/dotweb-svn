@@ -20,7 +20,7 @@ class HTMLAnchor extends HTMLControl
      * @access private
      * @var    string
      */
-    var $href = '';
+    var $_href = '';
 
     function HTMLAnchor($id)
     {
@@ -35,7 +35,7 @@ class HTMLAnchor extends HTMLControl
     {
         parent::processAttribs($attribs);
     
-        if ($attribs['href'])
+        if ( isset($attribs['href']) )
         {
             $this->setHref($attribs['href']);
         }
@@ -49,7 +49,7 @@ class HTMLAnchor extends HTMLControl
      */
     function setHref($href)
     {
-        $this->href = $href;
+        $this->_href = $href;
     }
 
     /**
@@ -71,16 +71,16 @@ class HTMLAnchor extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
-            return "";
+            return '';
         }
     
         $code = '<a'.$this->getBaseCode();
-        if ($this->href)
-            $code .= ' href="'.$this->href.'"';
+        if ($this->_href)
+            $code .= ' href="'.$this->_href.'"';
 
-        $code .= '>'.$this->content.'</a>';
+        $code .= '>'.$this->_content.'</a>';
 
         return $code;
     }

@@ -17,37 +17,37 @@ class HTMLControl
      * @access private
      * @var    string
      */
-    var $id = '';
+    var $_id = '';
     /**
      * @access private
      * @var    string
      */
-    var $class = '';
+    var $_class = '';
     /**
      * @access private
      * @var    string
      */
-    var $title = '';
+    var $_title = '';
     /**
      * @access private
      * @var    string
      */
-    var $name = '';
+    var $_name = '';
     /**
      * @access private
      * @var    string
      */
-    var $style = '';
+    var $_style = '';
     /**
      * @access private
      * @var    boolean
      */
-    var $visible = true;
+    var $_visible = true;
     /**
      * @access private
      * @var    string
      */
-    var $content = '';
+    var $_content = '';
 
     /**
      * Constructor of HTMLControl which requires the id of the control as parameter
@@ -68,27 +68,29 @@ class HTMLControl
      */
     function processAttribs($attribs)
     {
-        if ($attribs['id'])
+        if ( isset($attribs['id']) )
         {
             $this->setID($attribs['id']);
+            if (!$this->_name)
+                $this->setName($attribs['id']);
         }
-        if ($attribs['class'])
+        if ( isset($attribs['class']) )
         {
             $this->setClass($attribs['class']);
         }
-        if ($attribs['title'])
+        if ( isset($attribs['title']) )
         {
             $this->setTitle($attribs['title']);
         }
-        if ($attribs['name'])
+        if ( isset($attribs['name']) )
         {
             $this->setName($attribs['name']);
         }
-        if ($attribs['style'])
+        if ( isset($attribs['style']) )
         {
             $this->setStyle($attribs['style']);
         }
-        if ($attribs['visible'])
+        if ( isset($attribs['visible']) )
         {
             if (strtolower(trim($attribs['visible'])) == 'true')
             {
@@ -109,7 +111,7 @@ class HTMLControl
      */
     function setID($id)
     {
-        $this->id = $id;
+        $this->_id = $id;
     }
 
     /**
@@ -120,7 +122,7 @@ class HTMLControl
      */
     function setClass($class)
     {
-        $this->class = $class;
+        $this->_class = $class;
     }
 
     /**
@@ -131,7 +133,7 @@ class HTMLControl
      */
     function setTitle($title)
     {
-        $this->title = $title;
+        $this->_title = $title;
     }
 
     /**
@@ -142,7 +144,7 @@ class HTMLControl
      */
     function setName($name)
     {
-        $this->name = $name;
+        $this->_name = $name;
     }
 
     /**
@@ -153,7 +155,7 @@ class HTMLControl
      */
     function setStyle($style)
     {
-        $this->style = $style;
+        $this->_style = $style;
     }
 
     /**
@@ -163,7 +165,7 @@ class HTMLControl
      */
     function hide()
     {
-        $this->visible = false;
+        $this->_visible = false;
     }
 
     /**
@@ -173,7 +175,7 @@ class HTMLControl
      */
     function show()
     {
-        $this->visible = true;
+        $this->_visible = true;
     }
 
     /**
@@ -184,7 +186,7 @@ class HTMLControl
      */
     function setContent($content)
     {
-        $this->content = $content;
+        $this->_content = $content;
     }
 
     /**
@@ -195,7 +197,7 @@ class HTMLControl
      */
     function getContent()
     {
-        return $this->content;
+        return $this->_content;
     }
 
     /**
@@ -218,18 +220,18 @@ class HTMLControl
     {
         $code = '';
 
-        if ($this->visible)
+        if ($this->_visible)
         {
-            if ($this->id)
-                $code = $code.' id="'.$this->id.'"';
-            if ($this->class)
-                $code = $code.' class="'.$this->class.'"';
-            if ($this->title)
-                $code = $code.' title="'.$this->title.'"';
-            if ($this->name)
-                $code = $code.' name="'.$this->name.'"';
-            if ($this->style)
-                $code = $code.' style="'.$this->style.'"';
+            if ($this->_id)
+                $code = $code.' id="'.$this->_id.'"';
+            if ($this->_class)
+                $code = $code.' class="'.$this->_class.'"';
+            if ($this->_title)
+                $code = $code.' title="'.$this->_title.'"';
+            if ($this->_name)
+                $code = $code.' name="'.$this->_name.'"';
+            if ($this->_style)
+                $code = $code.' style="'.$this->_style.'"';
         }
 
         return $code;

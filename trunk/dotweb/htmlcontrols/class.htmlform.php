@@ -37,11 +37,11 @@ class HTMLForm extends HTMLControl
     {
         parent::processAttribs($attribs);
     
-        if ($attribs['action'])
+        if ( isset($attribs['action']) )
         {
             $this->setAction($attribs['action']);
         }
-        if ($attribs['method'])
+        if ( isset($attribs['method']) )
         {
             $this->setMethod($attribs['method']);
         }
@@ -82,7 +82,7 @@ class HTMLForm extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
             return "";
         }
@@ -92,7 +92,7 @@ class HTMLForm extends HTMLControl
         if ($this->_method)
             $code .= ' method="'.$this->_method.'"';
 
-        $code .= '>'.$this->content.'</form>';
+        $code .= '>'.$this->_content.'</form>';
 
         return $code;
     }

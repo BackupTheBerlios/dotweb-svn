@@ -46,19 +46,19 @@ class HTMLImage extends HTMLControl
     {
         parent::processAttribs($attribs);
 
-        if ($attribs['src'])
+        if ( isset($attribs['src']) )
         {
             $this->setSrc($attribs['src']);
         }
-        if ($attribs['alt'])
+        if ( isset($attribs['alt']) )
         {
             $this->setAlt($attribs['alt']);
         }
-        if ($attribs['height'])
+        if ( isset($attribs['height']) )
         {
             $this->objects[$attribs['id']]->setHeight($attribs['height']);
         }
-        if ($attribs['width'])
+        if ( isset($attribs['width']) )
         {
             $this->setWidth($attribs['width']);
         }
@@ -116,9 +116,9 @@ class HTMLImage extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
-            return "";
+            return '';
         }
     
         $code = '<img'.$this->getBaseCode();

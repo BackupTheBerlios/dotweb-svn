@@ -27,9 +27,32 @@ class HTMLTableCell extends HTMLControl
      */
     var $_rowspan = 1;
 
-    function HTMLTableCell($id)
+    /**
+     * @access private
+     * @var    boolean
+     */
+    var $_isheader = false;
+
+    function HTMLTableCell($id, $coldata)
     {
         parent::HTMLControl($id);
+
+        $this->setContent($coldata);
+    }
+
+    function processAttribs($attribs)
+    {
+        parent::processAttribs($attribs);
+
+        if ($attribs['colspan'])
+        {
+            $this->setColSpan($attribs['colspan']);
+        }
+
+        if ($attribs['rowspan'])
+        {
+            $this->setRowSpan($attribs['rowspan']);
+        }
     }
 
     /**
@@ -41,7 +64,7 @@ class HTMLTableCell extends HTMLControl
     function setColSpan($span)
     {
         if ($span > 1)
-            $this-_colspan = $span;
+            $this->_colspan = $span;
     }
 
     /**
@@ -53,7 +76,18 @@ class HTMLTableCell extends HTMLControl
     function setRowSpan($span)
     {
         if ($span > 1)
-            $this-_rowspan = $span;
+            $this->_rowspan = $span;
+    }
+
+    /**
+     * Set if the cell shall be a header cell (<th>) or just a normal cell (<td>)
+     *
+     * @access public
+     * @param  boolean
+     */
+    function setIsHeader($isheader)
+    {
+        $this->_isheader = $isheader;
     }
 
     /**
@@ -64,18 +98,36 @@ class HTMLTableCell extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
             return '';
         }
     
-        $code = '<td'.$this->getBaseCode();
+        if ($this->_isheader)
+        {
+            $code = '<th';
+        }
+        else
+        {
+            $code = '<td';
+        }
+        
+        $code .= $this->getBaseCode();
         if ($this->_colspan > 1)
             $code .= ' colspan="'.$this->_colspan.'"';
         if ($this->_rowspan > 1)
             $code .= ' rowspan="'.$this->_rowspan.'"';
 
-        $code .= '>'.$this->content.'</td>';
+        $code .= '>'.$this->_content;
+
+        if ($this->_isheader)
+        {
+            $code .= '</th>';
+        }
+        else
+        {
+            $code .= '</td>';
+        }
 
         return $code;
     }

@@ -12,6 +12,7 @@ require_once 'dotweb/htmlcontrols/class.htmlinputhidden.php';
 require_once 'dotweb/htmlcontrols/class.htmlinputtext.php';
 require_once 'dotweb/htmlcontrols/class.htmlspan.php';
 require_once 'dotweb/htmlcontrols/class.htmltextarea.php';
+require_once 'dotweb/htmlcontrols/class.htmltable.php';
 
 /**
  * Class which parses a template, retrieves and creates the objects of the dotweb components used in this template and generates the final output of the template.
@@ -139,10 +140,10 @@ class TemplateParser
         if (ereg("^dotweb:", $name))
         {
             // require an id attribute
-            if (!$attribs['id'] && $name != "dotweb:comment")
+            if (!isset($attribs['id']) && $name != "dotweb:comment")
                 fatalError("TemplateParser", $this->tplfile.': <b>Line '.xml_get_current_line_number($xp).'</b>', $name.' has no id but it is required to have one');
             // check if id is unique
-            if (array_key_exists($attribs['id'], $this->objects))
+            if (isset($attribs['id']) && array_key_exists($attribs['id'], $this->objects))
                 fatalError("TemplateParser", $this->tplfile.': <b>Line '.xml_get_current_line_number($xp).'</b>', 'Ids have to be unique but the id <b>'.$attribs['id'].'</b> is already in use.');
 
             // check for a specific dotweb tag and create a correspondent object
@@ -184,6 +185,11 @@ class TemplateParser
             else if ($name == "dotweb:span")
             {
                 $this->objects[$attribs['id']] = new HTMLSpan($attribs['id']);
+                $this->objects[$attribs['id']]->processAttribs($attribs);
+            }
+            else if ($name == "dotweb:table")
+            {
+                $this->objects[$attribs['id']] = new HTMLTable($attribs['id']);
                 $this->objects[$attribs['id']]->processAttribs($attribs);
             }
 
@@ -236,7 +242,8 @@ class TemplateParser
                     $this->curcontent[$i] = $this->curcontent[$i].'</'.$name.'>';
                 }
 
-                $this->objects[$id]->setContent($cont);
+                if (!$this->objects[$id]->getContent())
+                    $this->objects[$id]->setContent($cont);
             }
         }
         else if (count($this->namestack))
@@ -344,7 +351,7 @@ class TemplateParser
         }
         else
         {
-            if ($attribs['id'] && count($this->namestack) == 0)
+            if ( isset($attribs['id']) && count($this->namestack) == 0)
             {
                 if ($cont = $this->objects[$attribs['id']]->getContent())
                 {

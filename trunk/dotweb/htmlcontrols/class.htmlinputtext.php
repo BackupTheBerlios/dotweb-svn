@@ -5,7 +5,7 @@
  * @subpackage HTMLControls
  */
 
-require_once('dotweb/htmlcontrols/class.htmlcontrol.php');
+require_once('dotweb/htmlcontrols/class.htmlinputbase.php');
 
 /**
  * HTML control for a text field or a password field
@@ -14,7 +14,7 @@ require_once('dotweb/htmlcontrols/class.htmlcontrol.php');
  * @subpackage HTMLControls
  */
 
-class HTMLInputText extends HTMLControl
+class HTMLInputText extends HTMLInputBase
 {
     /**
      * @access private
@@ -39,32 +39,36 @@ class HTMLInputText extends HTMLControl
 
     function HTMLInputText($id)
     {
-        parent::HTMLControl($id);
+        parent::HTMLInputBase($id);
     }
 
     function processAttribs($attribs)
     {
         parent::processAttribs($attribs);
 
-        if ($attribs['type'])
+        if ( isset($attribs['type']) )
         {
             if (strtolower($attribs['type']) == 'password')
             {
                 $this->_type = 'password';
             }
         }
-        if ($attribs['value'])
+        if ( isset($attribs['value']) )
         {
             $this->setValue($attribs['value']);
         }
-        if ($attribs['maxlength'])
+        if ( isset($attribs['maxlength']) )
         {
             $this->setMaxlength($attribs['maxlength']);
         }
-        if ($attribs['size'])
+        if ( isset($attribs['size']) )
         {
             $this->setSize($attribs['size']);
         }
+
+        // do the auto fillin
+        if ($this->_autofillin && isset($_REQUEST[$this->_name]) )
+            $this->setValue($_REQUEST[$this->_name]);
     }
 
     /**
@@ -137,9 +141,9 @@ class HTMLInputText extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
-            return "";
+            return '';
         }
     
         $code = '<input'.$this->getBaseCode();

@@ -6,6 +6,7 @@
  */
 
 require_once("dotweb/htmlcontrols/class.htmlcontrol.php");
+require_once("dotweb/htmlcontrols/class.htmltablecell.php");
 
 /**
  * HTML Control for the <tr> HTML tag
@@ -18,92 +19,71 @@ class HTMLTableRow extends HTMLControl
 {
     /**
      * @access private
-     * @var    integer
+     * @var    array List of the TableCells that belong to this row
      */
-    var $_colspan = 1;
-    /**
-     * @access private
-     * @var    integer
-     */
-    var $_rowspan = 1;
-    /**
-     * @access private
-     * @var    boolean
-     */
-    var $_isheader = false;
+    var $_cells = array();
 
-    function HTMLTableRow($id)
+    function HTMLTableRow($id, $coldata)
     {
         parent::HTMLControl($id);
+
+        $num = count($coldata);
+        for ($i = 0; $i < $num; $i++)
+        {
+            $this->_cells[] = new HTMLTableCell($id, $coldata[$i]);
+        }
+    }
+
+    function processAttribs($attribs)
+    {
+        parent::processAttribs($attribs);
     }
 
     /**
-     * Make the cell span over a number of columns
+     * Get the number of cells in the row
      *
      * @access public
-     * @param  integer
+     * @return integer Number of cells
      */
-    function setColSpan($span)
+    function getCellCount()
     {
-        if ($span > 1)
-            $this-_colspan = $span;
+        return count($this->_cells);
     }
 
     /**
-     * Make the cell span over a number of rows
+     * Get a reference on a cell by its index (first row is 0)
      *
      * @access public
-     * @param  integer
+     * @param  integer Index of the row
+     * @return reference
      */
-    function setRowSpan($span)
+    function &getCell($num)
     {
-        if ($span > 1)
-            $this-_rowspan = $span;
-    }
+       if ($num < 0 || $num > count($this->_cells))
+       {
+           // FIXME: PEAR error handling
+           exit();
+       }
 
-    /**
-     * Set if the cell shall be a header cell (<th>) or just a normal cell (<td>)
-     *
-     * @access public
-     * @param  boolean
-     */
-    function setIsHeader($isheader)
-    {
-        $this->_isheader = $isheader;
+       return $this->_cells[$num];
     }
 
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
             return '';
         }
-    
-        if ($this->_isheader)
-        {
-            $code = '<th';
-        }
-        else
-        {
-            $code = '<td'
-        }
-        
-        $code .= $this->getBaseCode();
-        if ($this->_colspan > 1)
-            $code .= ' colspan="'.$this->_colspan.'"';
-        if ($this->_rowspan > 1)
-            $code .= ' rowspan="'.$this->_rowspan.'"';
 
-        $code .= '>'.$this->content;
+        $code  = '<tr';
+        $code .= $this->getBaseCode() . '>';
 
-        if ($this->_isheader)
+        for ($i = 0; $i < count($this->_cells); $i++)
         {
-            $code .= '</th>';
+            $code .= $this->_cells[$i]->getCode();
         }
-        else
-        {
-            $code .= '</td>'
-        }
+
+        $code .= '</tr>';
 
         return $code;
     }

@@ -29,14 +29,14 @@ class HTMLDiv extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
-            return "";
+            return '';
         }
     
         $code = "<div".$this->getBaseCode();
 
-        $code .= ">".$this->content.'</div>';
+        $code .= ">".$this->_content.'</div>';
 
         return $code;
     }

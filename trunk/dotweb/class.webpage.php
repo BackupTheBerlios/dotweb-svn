@@ -169,6 +169,10 @@ class WebPage
             {
                 on_post_send();
             }
+            else
+            {
+                on_page_load();
+            }
             exit();
         }
         else if (is_array($_GET) && count($_GET) > 0)
@@ -177,6 +181,10 @@ class WebPage
             if (function_exists('on_get_send'))
             {
                 on_get_send();
+            }
+            else
+            {
+                on_page_load();
             }
             exit();
         }

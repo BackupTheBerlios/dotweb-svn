@@ -5,7 +5,7 @@
  * @subpackage HTMLControls
  */
 
-require_once('dotweb/htmlcontrols/class.htmlcontrol.php');
+require_once('dotweb/htmlcontrols/class.htmlinputbase.php');
 
 /**
  * A control for a text input area with multiple lines
@@ -14,7 +14,7 @@ require_once('dotweb/htmlcontrols/class.htmlcontrol.php');
  * @subpackage HTMLControls
  */
 
-class HTMLTextArea extends HTMLControl
+class HTMLTextArea extends HTMLInputBase
 {
     /**
      * @access private
@@ -29,20 +29,26 @@ class HTMLTextArea extends HTMLControl
 
     function HTMLTextArea($id)
     {
-        parent::HTMLControl($id);
+        parent::HTMLInputBase($id);
     }
 
     function processAttribs($attribs)
     {
         parent::processAttribs($attribs);
     
-        if ($attribs['cols'])
+        if ( isset($attribs['cols']) )
         {
             $this->setCols($attribs['cols']);
         }
-        if ($attribs['rows'])
+        if ( isset($attribs['rows']) )
         {
             $this->setRows($attribs['rows']);
+        }
+
+        // do the auto fillin
+        if ($this->_autofillin && isset($_REQUEST[$this->_name]) )
+        {
+            $this->setText($_REQUEST[$this->_name]);
         }
     }
 
@@ -109,7 +115,7 @@ class HTMLTextArea extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
             return '';
         }
@@ -120,7 +126,7 @@ class HTMLTextArea extends HTMLControl
         if ($this->_rows)
             $code .= ' rows="'.$this->_rows.'"';
 
-        $code .= '>'.$this->content.'</textarea>';
+        $code .= '>'.$this->_content.'</textarea>';
 
         return $code;
     }
