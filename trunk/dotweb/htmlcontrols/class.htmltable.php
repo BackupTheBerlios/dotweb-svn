@@ -29,6 +29,12 @@ class HTMLTable extends HTMLControl
      */
     var $_rows = array();
 
+    /**
+     * @access private
+     * @var    string  Caption of the table
+     */
+    var $_caption = '';
+
     function HTMLTable($id)
     {
         parent::HTMLControl($id);
@@ -37,6 +43,17 @@ class HTMLTable extends HTMLControl
     function processAttribs($attribs)
     {
         parent::processAttribs($attribs);
+    }
+
+    /**
+     * Set the caption of the table
+     *
+     * @access public
+     * @param  string New table caption
+     */
+    function setCaption($caption)
+    {
+        $this->_caption = $caption;
     }
 
     /**
@@ -97,6 +114,9 @@ class HTMLTable extends HTMLControl
     
         $code = '<table'.$this->getBaseCode();
         $code .= '>';
+
+        if ($this->_caption)
+            $code .= '<caption>'.$this->_caption.'</caption>';
         
         for ($i = 0; $i < count($this->_rows); $i++)
         {
