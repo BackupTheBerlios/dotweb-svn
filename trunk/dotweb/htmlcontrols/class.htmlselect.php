@@ -23,6 +23,11 @@ class HTMLSelect extends HTMLInputBase
     var $_options = array();
     /**
      * @access private
+     * @var    array
+     */
+    var $_values = array();
+    /**
+     * @access private
      * @var    integer
      */
     var $_size = 1;
@@ -97,9 +102,10 @@ class HTMLSelect extends HTMLInputBase
      * @param  string
      * @param  boolean
      */
-    function addOption($option, $selected = false)
+    function addOption($option, $value, $selected = false)
     {
         $this->_options[] = $option;
+        $this->_values[]  = $value;
 
         if ($selected)
         {
@@ -134,6 +140,8 @@ class HTMLSelect extends HTMLInputBase
             $code .= "\n<option";
             if ($this->_selected == $i)
                 $code .= ' selected="selected"';
+            if ($this->_values[$i])
+                $code .= ' value="'.$this->_values[$i].'"';
             $code .= '>'.$this->_options[$i].'</option>';
         }
 
