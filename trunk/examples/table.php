@@ -11,6 +11,7 @@ function on_page_load()
 {
     global $web, $controls;
     $link = new HTMLAnchor('');
+    // data array that could also come from a textfile or a database
     $data = array(
                     array('Firefox', '0.9.2', 'Linux, Mac OS X and Windows', 'http://www.mozilla.org/products/firefox/'),
                     array('Mozilla', '1.7.1', 'Linux, Mac OS X and Windows', 'http://www.mozilla.org/products/mozilla1.x'),
@@ -20,12 +21,15 @@ function on_page_load()
                     
     );
 
+    // table caption and col headings
     $controls['tblbrowsers']->setCaption('Modern Browsers');
     $controls['tblbrowsers']->addHeaderRow(array('Browser', 'Version', 'Supported Operating Systems', 'Website'));
 
+    // fill the table with the array data
     $i = 1;
     foreach ($data as $cur)
     {
+        // convert url at the end of the array to a HTML link
         $url = array_pop($cur);
         $link->setHref($url);
         $link->setText($cur[0]);
@@ -34,6 +38,7 @@ function on_page_load()
         $controls['tblbrowsers']->addRow($cur);
         $row =& $controls['tblbrowsers']->getLastRow();
 
+        // use two different colors for the rows
         if ($i % 2 == 0)
             $row->setClass('bgcolor1');
         else

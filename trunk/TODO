@@ -1,12 +1,3 @@
-For version 0.01:
-
-    + implement basic form validator
-    + automatic fillin for all input controls
-    + test if disabling of the automatic fillin works
-    + Perl script for automatic generation of the API docs
-    + write some scripts for the example subdir
-    + template method that returns the HTML code instead of printing it
-
 After 0.01:
 
     - FieldValidators for regexps, email and custom code
