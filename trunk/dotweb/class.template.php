@@ -196,6 +196,17 @@ class Template
         return $this->compileFile($this->tpldir.'/'.$matches[1]);
     }
 
+    /**
+     * Check if all submitted fields are valid
+     *
+     * @access public
+     * @return boolean
+     */
+    function isFormValid()
+    {
+        return $this->tplparser->isFormValid();
+    }
+
 }
 
 ?>

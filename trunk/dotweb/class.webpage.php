@@ -51,6 +51,22 @@ class WebPage
     }
 
     /**
+     * Check if any data was submitted.
+     *
+     * @access public
+     * @return boolean
+     */
+    function wasSubmitted()
+    {
+        if (count($_REQUEST))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Print the output of the template
      *
      * @access public
@@ -193,6 +209,17 @@ class WebPage
             on_page_load();
             exit();
         }
+    }
+
+    /**
+     * Check if all submitted fields are valid
+     *
+     * @access public
+     * @return boolean
+     */
+    function isFormValid()
+    {
+        return $this->_tpl->isFormValid();
     }
 }
 

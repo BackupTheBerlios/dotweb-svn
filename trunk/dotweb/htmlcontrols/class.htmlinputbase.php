@@ -75,6 +75,8 @@ class HTMLInputBase extends HTMLControl
     }
 
     /**
+     * Get the value that was submitted for this control
+     *
      * @access public
      * @return string The submit value of the control
      */
@@ -83,9 +85,26 @@ class HTMLInputBase extends HTMLControl
         return $this->_submitvalue;
     }
 
+    /**
+     * Enable or disable autofillin for this control
+     *
+     * @access public
+     * @param boolean
+     */
     function setAutoFillIn($autofillin)
     {
         $this->_autofillin = $autofillin;
+    }
+
+    /**
+     * Check if AutoFillIn is active or not
+     *
+     * @access public
+     * @return boolean
+     */
+    function autoFillIn()
+    {
+        return $this->_autofillin;
     }
 }
 

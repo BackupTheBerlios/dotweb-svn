@@ -41,6 +41,19 @@ class HTMLInputCheckBox extends HTMLInputBase
     function processAttribs($attribs)
     {
         parent::processAttribs($attribs);
+
+        // autofillin
+        if ($this->autoFillIn() && $this->wasSubmitted())
+        {
+            if ($this->getSubmitValue())
+            {
+                $this->setChecked(true);
+            }
+            else
+            {
+                $this->setChecked(false);
+            }
+        }
     }
 
     /**

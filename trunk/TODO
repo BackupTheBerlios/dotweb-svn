@@ -3,7 +3,7 @@ For version 0.01:
     + implement basic form validator
     - automatic fillin for all input controls
     + test if disabling of the automatic fillin works
-    - shell script for automatic generation of the API docs
+    + Perl script for automatic generation of the API docs
     - write some scripts for the example subdir
 
 After 0.01:
@@ -14,3 +14,4 @@ After 0.01:
     - add support for JavaScript event handlers to all controls
     - additional client side form validation with JavaScript
     - intensive testing by using it to build real applications
+    - improve API documentation

@@ -464,5 +464,24 @@ class TemplateParser
         }
     }
 
+    /**
+     * Check if all submitted fields are valid
+     *
+     * @access public
+     * @return boolean
+     */
+    function isFormValid()
+    {
+        for ($i = 0; $i < count($this->_validators); $i++)
+        {
+            if (!$this->_validators[$i]->isValid())
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
 ?>
