@@ -15,12 +15,12 @@ Table of Content
 1. About
 --------
 
-
+DotWeb is a higher level template engine which tries to provide similar features like ASP.NET.
 
 2. Getting Started
 ------------------
 
-
+After installing DotWeb on your webserver (read INSTALL for more information on that) you should read the DotWeb tutorial at http://dotweb.berlios.de/tutorial.html first. When you have read this tutorial you can take a closer look at the examples that come with DotWeb to see some of its more advanced features for table and form handling.
 
 3. Notes On HTML
 ----------------
