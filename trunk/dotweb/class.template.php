@@ -74,6 +74,17 @@ class Template
     }
 
     /**
+     * Set page title
+     *
+     * @access public
+     * @param  string Title of the webpage
+     */
+    function setTitle($title)
+    {
+        $this->tplparser->setTitle($title);
+    }
+
+    /**
      * Retrieve an array of objects of all controls which are present in the template
      *
      * @access public

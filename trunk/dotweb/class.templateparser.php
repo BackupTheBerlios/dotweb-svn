@@ -55,6 +55,11 @@ class TemplateParser
     var $_validators = array();
     /**
      * @access private
+     * @var    string
+     */
+    var $_title = '';
+    /**
+     * @access private
      * @var    array
      */
     var $namestack = array();
@@ -89,6 +94,17 @@ class TemplateParser
     function setInputFile($tplfile)
     {
         $this->tplfile = $tplfile;
+    }
+
+    /**
+     * Set page title
+     *
+     * @access public
+     * @param  string Title of the webpage
+     */
+    function setTitle($title)
+    {
+        $this->_title = $title;
     }
 
     /**
@@ -168,6 +184,11 @@ class TemplateParser
             $this->curcontent[$i] .= '>';
         }
 
+        if ($name == "dotweb:title")
+        {
+            $this->objects['title'] = 'title';
+        }
+        else
         // do we have a dotweb tag?
         if (ereg("^dotweb:", $name))
         {
@@ -415,6 +436,10 @@ class TemplateParser
         }
         else
         {
+            if ($name == 'dotweb:title')
+            {
+                $this->output .= '<title>'.$this->_title.'</title>';
+            }
             if ( isset($attribs['id']) && count($this->namestack) == 0)
             {
                 if ($cont = $this->objects[$attribs['id']]->getContent())
