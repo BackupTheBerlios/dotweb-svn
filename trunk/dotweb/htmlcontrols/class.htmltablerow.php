@@ -59,13 +59,14 @@ class HTMLTableRow extends HTMLControl
      */
     function &getCell($num)
     {
-       if ($num < 0 || $num > count($this->_cells))
-       {
-           // FIXME: PEAR error handling
-           exit();
-       }
+        if ($num < 0 || $num >= count($this->_cells))
+        {
+            // FIXME: PEAR error handling
+            print 'ERROR: There is no row with the index '.$num;
+            exit();
+        }
 
-       return $this->_cells[$num];
+        return $this->_cells[$num];
     }
 
     function getCode()
@@ -75,7 +76,7 @@ class HTMLTableRow extends HTMLControl
             return '';
         }
 
-        $code  = '<tr';
+        $code  = "\n<tr";
         $code .= $this->getBaseCode() . '>';
 
         for ($i = 0; $i < count($this->_cells); $i++)

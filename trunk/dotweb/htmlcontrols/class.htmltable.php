@@ -92,17 +92,30 @@ class HTMLTable extends HTMLControl
      *
      * @access public
      * @param  integer Index of the row
-     * @return reference
+     * @return reference Reference on a TableRow object
      */
     function &getRow($num)
     {
-       if ($num < 0 || $num > count($this->_rows))
-       {
-           // FIXME: PEAR error handling
-           exit();
-       }
+        if ($num < 0 || $num >= count($this->_rows))
+        {
+            // FIXME: PEAR error handling
+            print 'ERROR: There is no row with the index '.$num;
+            exit();
+        }
 
-       return $this->_rows[$num];
+        return $this->_rows[$num];
+    }
+
+    /**
+     * Get a reference on the last row of this table
+     *
+     * @access public
+     * @return reference Reference on a TableRow object
+     */
+    function &getLastRow()
+    {
+        $num = count($this->_rows) - 1;
+        return $this->getRow($num);
     }
 
     function getCode()
@@ -112,11 +125,11 @@ class HTMLTable extends HTMLControl
             return '';
         }
     
-        $code = '<table'.$this->getBaseCode();
+        $code = "\n<table".$this->getBaseCode();
         $code .= '>';
 
         if ($this->_caption)
-            $code .= '<caption>'.$this->_caption.'</caption>';
+            $code .= "\n<caption>".$this->_caption.'</caption>';
         
         for ($i = 0; $i < count($this->_rows); $i++)
         {
