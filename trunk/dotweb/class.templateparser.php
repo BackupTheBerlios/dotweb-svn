@@ -61,7 +61,7 @@ class TemplateParser
      * @access private
      * @var    array
      */
-    var $nocontent = array('br', 'img', 'input');
+    var $nocontent = array('br', 'img', 'input', 'link');
 
     function TemplateParser()
     {
