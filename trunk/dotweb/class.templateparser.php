@@ -12,6 +12,8 @@ require_once 'dotweb/htmlcontrols/class.htmlimage.php';
 require_once 'dotweb/htmlcontrols/class.htmlselect.php';
 require_once 'dotweb/htmlcontrols/class.htmlinputhidden.php';
 require_once 'dotweb/htmlcontrols/class.htmlinputtext.php';
+require_once 'dotweb/htmlcontrols/class.htmlinputcheckbox.php';
+require_once 'dotweb/htmlcontrols/class.htmlinputradiobutton.php';
 require_once 'dotweb/htmlcontrols/class.htmlspan.php';
 require_once 'dotweb/htmlcontrols/class.htmltextarea.php';
 require_once 'dotweb/htmlcontrols/class.htmltable.php';
@@ -177,6 +179,16 @@ class TemplateParser
             else if ($name == 'dotweb:input' && $attribs['type'] == 'hidden')
             {
                 $this->objects[$attribs['id']] = new HTMLInputHidden($attribs['id']);
+                $this->objects[$attribs['id']]->processAttribs($attribs);
+            }
+            else if ($name == 'dotweb:input' && $attribs['type'] == 'checkbox')
+            {
+                $this->objects[$attribs['id']] = new HTMLInputCheckBox($attribs['id']);
+                $this->objects[$attribs['id']]->processAttribs($attribs);
+            }
+            else if ($name == 'dotweb:input' && $attribs['type'] == 'radio')
+            {
+                $this->objects[$attribs['id']] = new HTMLInputRadioButton($attribs['id']);
                 $this->objects[$attribs['id']]->processAttribs($attribs);
             }
             else if ($name == 'dotweb:textarea')
