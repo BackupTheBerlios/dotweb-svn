@@ -22,6 +22,7 @@ require_once 'dotweb/htmlcontrols/class.htmltable.php';
 require_once 'dotweb/htmlcontrols/class.fieldvalidator.php';
 require_once 'dotweb/htmlcontrols/class.fieldvalidatorregexp.php';
 require_once 'dotweb/htmlcontrols/class.fieldvalidatoremail.php';
+require_once 'dotweb/htmlcontrols/class.fieldvalidatorcustom.php';
 
 /**
  * Class which parses a template, retrieves and creates the objects of the dotweb components used in this template and generates the final output of the template.
@@ -287,6 +288,10 @@ class TemplateParser
                 else if ($type == 'regexp')
                 {
                     $this->_objects[$attribs['id']] = new FieldValidatorRegexp($attribs['id']);
+                }
+                else if ($type == 'custom')
+                {
+                    $this->_objects[$attribs['id']] = new FieldValidatorCustom($attribs['id']);
                 }
                 else
                 {

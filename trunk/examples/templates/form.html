@@ -81,6 +81,9 @@ You will only find that there are &lt;dotweb:fieldvalidator&gt; tags in the temp
         <dotweb:fieldvalidator id="validcountry" type="required" field="selcountry">
             Your country is required.
         </dotweb:fieldvalidator>
+        <dotweb:fieldvalidator id="validcountry2" type="custom" field="selcountry" function="checkCountry">
+            Are you telling me stories?
+        </dotweb:fieldvalidator>
     </td>
 </tr>
 </table>

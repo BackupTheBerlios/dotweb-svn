@@ -57,6 +57,7 @@ function init_page()
                        'Italy',
                        'Japan',
                        'Netherlands',
+                       'Klingon Empire',
                        'Spain',
                        'United Kingdom',
                        'United States');
@@ -65,6 +66,17 @@ function init_page()
     {
         $controls['selcountry']->addOption($country, '');
     }
+
+    $controls['validcountry2']->setCustomFunction('checkCountry');
+}
+
+// custom validation function
+function checkCountry($country)
+{
+    if ($country == 'Klingon Empire')
+        return false;
+
+    return true;
 }
 
 ?>
