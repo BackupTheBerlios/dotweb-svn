@@ -19,6 +19,15 @@ class HTMLInputBase extends HTMLControl
         parent::HTMLControl($id);
     }
 
+    /**
+     * @access public
+     * @param  array Array of tag attributes
+     */
+    function processAttribs($attribs)
+    {
+        parent::processAttribs($attribs);
+    }
+
     function setAutoFillIn($autofillin)
     {
         $this->_autofillin = $autofillin;

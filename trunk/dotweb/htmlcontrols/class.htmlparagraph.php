@@ -22,6 +22,15 @@ class HTMLParagraph extends HTMLControl
     }
 
     /**
+     * @access public
+     * @param  array Array of tag attributes
+     */
+    function processAttribs($attribs)
+    {
+        parent::processAttribs($attribs);
+    }
+
+    /**
      * Returns the HTML code of the control
      *
      * @access public

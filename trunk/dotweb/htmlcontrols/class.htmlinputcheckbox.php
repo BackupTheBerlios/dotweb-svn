@@ -35,6 +35,15 @@ class HTMLInputCheckBox extends HTMLInputBase
     }
 
     /**
+     * @access public
+     * @param  array Array of tag attributes
+     */
+    function processAttribs($attribs)
+    {
+        parent::processAttribs($attribs);
+    }
+
+    /**
      * Set if the checkbox is checked or not.
      *
      * @access public
