@@ -13,6 +13,9 @@ After 0.01:
     - register event for variable defined
     - add support for JavaScript event handlers to all controls
     - get methods for all private data
+    - sort method for select
+    - parse options of select
+    - <dotweb:label/>
 
     - tabindex for all form controls
     - additional client side form validation with JavaScript
@@ -21,3 +24,4 @@ After 0.01:
     - strong checks for missing attributes in templates
     - more examples
     - parse text for RadioButtons and Checkboxes
+    - better error messages

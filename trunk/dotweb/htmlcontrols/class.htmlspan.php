@@ -38,7 +38,7 @@ class HTMLSpan extends HTMLControl
      */
     function getCode()
     {
-        if ($this->visible == false)
+        if ($this->_visible == false)
         {
             return '';
         }

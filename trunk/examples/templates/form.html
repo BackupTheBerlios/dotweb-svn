@@ -1,0 +1,91 @@
+<dotweb:include file="header.html"/>
+
+<h1>DotWeb: Form Example</h1>
+
+<div>
+This example shows you some of DotWeb's form handling capabilities in action. When you play with this form a bit and take a closer look at the source code and the template of this example in the next step you will recognize that there is not a single line of PHP code that fills all values into the form after you have submitted it and there is also no PHP code to check if all fields are filled out.
+</div>
+<br/>
+<div>
+You will only find that there are &lt;dotweb:fieldvalidator&gt; tags in the template which do all the validation stuff for you. So you only have to place some of these validation tags in your template and DotWeb will do the rest of the work for you.
+</div>
+
+<br/>
+<br/>
+
+<dotweb:form id="formpers" method="GET">
+
+<legend>Personal Information</legend>
+
+<table>
+<tr>
+    <td>
+        <label>First Name:</label>
+    </td>
+    <td>
+        <dotweb:input type="text" id="edtfirstname" name="edtfirstname"/>
+    </td>
+    <td>
+        <dotweb:fieldvalidator id="validfirstname" type="required" field="edtfirstname">
+            Your first name is required.
+        </dotweb:fieldvalidator>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <label>Last Name:</label>
+    </td>
+    <td>
+        <dotweb:input type="text" id="edtlastname" name="edtlastname"/>
+    </td>
+    <td>
+        <dotweb:fieldvalidator id="validlastname" type="required" field="edtlastname">
+            Your last name is required.
+        </dotweb:fieldvalidator>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <label>eMail:</label>
+    </td>
+    <td>
+        <dotweb:input type="text" id="edtemail" name="edtemail"/>
+    </td>
+    <td>
+        <dotweb:fieldvalidator id="validemail" type="required" field="edtemail">
+            Your eMail address is required.
+        </dotweb:fieldvalidator>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <label>Country:</label>
+    </td>
+    <td>
+        <dotweb:select id="selcountry" name="selcountry"/>
+    </td>
+    <td>
+        <dotweb:fieldvalidator id="validcountry" type="required" field="selcountry">
+            Your country is required.
+        </dotweb:fieldvalidator>
+    </td>
+</tr>
+</table>
+
+<br/>
+<dotweb:button type="submit" id="btnsubmit" name="btnsubmit">Submit</dotweb:button>
+
+</dotweb:form>
+
+<br/>
+
+<dotweb:div id="areamsg" style="text-align: center; font-size: x-large; font-weight: bold" visible="false">
+Your information has been submitted successfully.
+<br/><br/>
+<dotweb:a id="aback">Back</dotweb:a>
+</dotweb:div>
+
+<dotweb:include file="footer.html"/>

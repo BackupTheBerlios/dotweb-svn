@@ -94,11 +94,11 @@ class HTMLControl
         {
             if (strtolower(trim($attribs['visible'])) == 'true')
             {
-                $this->visible = true;
+                $this->_visible = true;
             }
             else
             {
-                $this->visible = false;
+                $this->_visible = false;
             }
         }
     }

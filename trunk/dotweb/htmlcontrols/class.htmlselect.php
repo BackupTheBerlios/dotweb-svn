@@ -140,6 +140,7 @@ class HTMLSelect extends HTMLInputBase
      *
      * @access public
      * @param  string
+     * @param  string
      * @param  boolean
      */
     function addOption($option, $value, $selected = false)
