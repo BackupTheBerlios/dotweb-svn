@@ -96,6 +96,17 @@ class Template
         print $this->tplparser->getOutput($controls);
     }
 
+    /**
+     * Return the output of the template.
+     *
+     * @access public
+     * @param  array Array of html control objects from this template
+     */
+    function getOutput($controls)
+    {
+        return $this->tplparser->getOutput($controls);
+    }
+
      /**
      * Compile the template and write the resulting file to /tmp/.dotweb/(md5sum)_(filesize)
      *
