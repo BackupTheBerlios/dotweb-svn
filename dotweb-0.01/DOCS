@@ -1,0 +1,11 @@
+API DOCUMENTATION
+
+The documentation for all classes is embedded into the source code. To generate a nice HTML version of the documentation you need to install phpDocumentor first. You can get it from http://www.phpdoc.org/.
+
+Now you can generate the documentation with the following command:
+
+phpdoc -t dotwebdoc -o HTML:Smarty:PHP -dn DotWeb -ti "DotWeb Documentation" -d dotweb
+
+The option -t dotwebdoc specifies the target directory where the documentation shall be created in while -d dotweb is the path to your copy of the dotweb source code.
+
+This command will create documentation only for the public methods of each class. If you want to work an dotweb itself you might want to have documentation for the private stuff, too. To get full documentation you only have to append the option -pp to the previous command.

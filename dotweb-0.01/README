@@ -1,0 +1,37 @@
+DotWeb
+Version 0.01
+
+Table of Content
+****************
+
+1. About
+2. Getting Started
+3. Notes On HTML
+4. Contact
+
+
+
+
+1. About
+--------
+
+DotWeb is a higher level template engine which tries to provide similar features like ASP.NET.
+
+2. Getting Started
+------------------
+
+After installing DotWeb on your webserver (read INSTALL for more information on that) you should read the DotWeb tutorial at http://dotweb.berlios.de/tutorial.html first. When you have read this tutorial you can take a closer look at the examples that come with DotWeb to see some of its more advanced features for table and form handling.
+
+3. Notes On HTML
+----------------
+
+Since DotWeb uses PHPs expat XML parser you are forced to use valid XHTML for all your templates. This means that you have to close every tag in your template even tags like <br/> or <link/>.
+
+Otherwise you will get an error message from the XML parser and in the case that you include some other files in your template the file number mentioned in the error message will be incorrect. DotWeb will get nicer and more useful error messages in one of the next version. So stay tuned. There are some reason why this is just an alpha release ;)
+
+
+4. Contact
+----------
+
+Homepage: http://dotweb.berlios.de/
+Maintainer: Andreas Heck <aheck@mozilla-center.de>
